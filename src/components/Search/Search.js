@@ -100,9 +100,7 @@ export default function Search(props) {
 
   // Submit The Search Request To The Server
   const submitSearch = event => {
-    console.log(searchValue);
     if (!_.isEmpty(searchValue)) {
-      console.log(searchValue);
       let parseSearchValue = searchValue.replace(/ /g, "+");
       if (!location.search) {
         event.preventDefault();
