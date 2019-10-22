@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Spinner() {
   const classes = useStyles();
+  console.log("Spinner");
 
   return (
     <div>

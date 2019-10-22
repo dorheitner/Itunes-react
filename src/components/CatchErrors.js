@@ -6,6 +6,8 @@ export default class CatchErrors extends PureComponent {
   state = { error: null };
 
   componentDidCatch(error, errorInfo) {
+    console.log("CatchErrors");
+
     this.setState({ error });
   }
 

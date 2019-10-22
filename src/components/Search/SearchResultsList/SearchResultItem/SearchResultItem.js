@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MediaControlCard(props) {
+  console.log("searchResultItem");
   const classes = useStyles();
 
   return (

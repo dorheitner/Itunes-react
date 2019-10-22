@@ -29,15 +29,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SearchResultsList(props) {
+export default React.memo(function SearchResultsList(props) {
+  console.log("searchResultsList");
   const classes = useStyles();
-  if (!props.songsData) {
-  }
-
-  return (
-    <List className={classes.root}>
-      {props.songsData
-        ? props.songsData.map(song => (
+  if (props.songsData) {
+    return (
+      <List className={classes.root}>
+        {props.songsData &&
+          props.songsData.map(song => (
             <Link
               className={classes.links}
               to={{ pathname: `/song/${song.trackId}` }}
@@ -50,8 +49,8 @@ export default function SearchResultsList(props) {
                 </ListItem>
               </div>
             </Link>
-          ))
-        : null}
-    </List>
-  );
-}
+          ))}
+      </List>
+    );
+  }
+});
