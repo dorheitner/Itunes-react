@@ -104,7 +104,7 @@ export default React.memo(function Search(props) {
           errorsCatcher("Somthing went worg, please try again", setErorr);
         });
     }
-  }, [location.search, errorsCatcher, setErorr]);
+  }, [location.search]);
 
   // Get The Last 10 Search Requests From The Server
   useEffect(() => {
@@ -117,9 +117,9 @@ export default React.memo(function Search(props) {
         }
       })
       .catch(error => {
-        errorsCatcher("Somthing went worg, please try again", setErorr);
+        //   errorsCatcher("Somthing went worg, please try again", setErorr);
       });
-  }, [errorsCatcher, setErorr]);
+  }, []);
 
   // Submit The Search Request To The Server
   const submitSearch = event => {
