@@ -1,22 +1,14 @@
 import React, { PureComponent } from "react";
-import ErrorHandler from "../hoc/ErrorHandler/ErrorHandler";
-import Layout from "../hoc/Layout/Layout";
+import ErrorBoundary from "./Errors/ErrorBoundary";
 
 export default class CatchErrors extends PureComponent {
-  state = { error: null };
-
-  componentDidCatch(error, errorInfo) {
-    console.log("CatchErrors");
-
-    this.setState({ error });
-  }
-
   render() {
-    if (this.state.error) {
+    if (this.props.error.message) {
       return (
-        <Layout>
-          <ErrorHandler />
-        </Layout>
+        <>
+          <ErrorBoundary errors={this.props.error} />
+          {this.props.children}
+        </>
       );
     } else {
       return this.props.children;

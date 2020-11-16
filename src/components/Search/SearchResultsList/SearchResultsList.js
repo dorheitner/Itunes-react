@@ -7,7 +7,7 @@ import ListItem from "@material-ui/core/ListItem";
 import { SerachResultItem } from "./SearchResultItem";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 600,
@@ -30,21 +30,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default React.memo(function SearchResultsList(props) {
-  console.log("searchResultsList");
   const classes = useStyles();
   if (props.songsData) {
     return (
       <List className={classes.root}>
         {props.songsData &&
-          props.songsData.map(song => (
+          props.songsData.map((song, index) => (
             <Link
               className={classes.links}
               to={{ pathname: `/song/${song.trackId}` }}
-              key={`${song.trackId}_Link`}
+              key={`${index}_Link`}
               songdetails={song}
             >
-              <div key={`${song.trackId}_Avatar`}>
-                <ListItem key={song.trackId} alignItems='flex-start'>
+              <div key={`${index}_Avatar`}>
+                <ListItem key={song.trackId} alignItems="flex-start">
                   <SerachResultItem song={song} />
                 </ListItem>
               </div>

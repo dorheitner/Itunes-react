@@ -7,7 +7,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import HistoryIcon from "@material-ui/icons/History";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
@@ -24,21 +24,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function GetLastRequests(props) {
   const classes = useStyles();
-  console.log("getLastRequest");
+
+  console.log("GetLastRequests");
   return (
     <List
-      component='nav'
-      aria-labelledby='nested-list-subheader'
+      component="nav"
+      aria-labelledby="nested-list-subheader"
       subheader={
-        <ListSubheader component='div' id='nested-list-subheader'>
+        <ListSubheader component="div" id="nested-list-subheader">
           Last Search Requests
         </ListSubheader>
       }
       className={classes.root}
     >
-      {props.list.map(item => (
+      {props.list.map((item) => (
         <a href={`/?q=${item.value}`} key={item._id} className={classes.link}>
-          <ListItem button key={item._id}>
+          <ListItem button>
             <ListItemIcon>
               <HistoryIcon />
             </ListItemIcon>

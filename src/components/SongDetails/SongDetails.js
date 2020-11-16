@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 
 import axios from "../../axios-itunes";
-import _ from "lodash";
+import isEmpty from "lodash.isempty";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -13,9 +13,12 @@ import useReactRouter from "use-react-router";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 
 import { Spinner } from "../UI/Spinner";
-import AppContext from "../../contexts/AppContext";
+import { useRecoilState } from "recoil";
+import { errorState } from "../../store/atons";
 
-const useStyles = makeStyles(theme => ({
+//import AppContext from "../../contexts/AppContext";
+
+const useStyles = makeStyles((theme) => ({
   card: {
     display: "flex",
     width: "80%",
@@ -114,7 +117,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SongDetails(props) {
-  const setErorr = useContext(AppContext).setErrorProp;
+  // const setErorr = useContext(AppContext).setErrorProp;
+
+  const [, setError] = useRecoilState(errorState);
 
   console.log("songDetails");
   const songId = props.match.params.songid;
@@ -128,17 +133,17 @@ export default function SongDetails(props) {
 
   useEffect(() => {
     console.log("useEffect1");
-    const errorsCatcher = message => {
-      setErorr(true, message);
-      setTimeout(function() {
-        setErorr(false, null);
+    const errorsCatcher = (message) => {
+      setError({}, message);
+      setTimeout(function () {
+        setError({});
       }, 3000);
     };
     // Get Track Details By Track Id From The Server
     axios
       .post("/itunes/trackId", { trackId: songId })
-      .then(response => {
-        if (!_.isEmpty(response.data.results)) {
+      .then((response) => {
+        if (!isEmpty(response.data.results)) {
           setSongData(response.data.results[0]);
 
           // Get Track Details With Music Video
@@ -147,7 +152,7 @@ export default function SongDetails(props) {
               artistName: response.data.results[0].artistName,
               trackName: response.data.results[0].trackName,
             })
-            .then(response => {
+            .then((response) => {
               if (response.data.results.url) {
                 setMedia(response.data.results.url);
                 setMusicVideo(true);
@@ -155,7 +160,7 @@ export default function SongDetails(props) {
                 setMedia("audio");
               }
             })
-            .catch(error => {
+            .catch((error) => {
               errorsCatcher("Somthing went worg, please try again");
             });
         } else {
@@ -164,10 +169,10 @@ export default function SongDetails(props) {
           );
         }
       })
-      .catch(error => {
+      .catch((error) => {
         errorsCatcher("Somthing went worg, please try again");
       });
-  }, [songId, setErorr]);
+  }, [setError, songId]);
 
   return (
     <>
@@ -185,43 +190,43 @@ export default function SongDetails(props) {
                 />
               </div>
               <div className={classes.title}>
-                <Typography component='h5' variant='h5'>
+                <Typography component="h5" variant="h5">
                   {songData.trackName}
                 </Typography>
-                <Typography variant='subtitle1' color='textSecondary'>
+                <Typography variant="subtitle1" color="textSecondary">
                   {songData.artistName}
                 </Typography>
               </div>
             </header>
             <div className={classes.content}>
-              <Typography variant='subtitle2' gutterBottom>
+              <Typography variant="subtitle2" gutterBottom>
                 {songData.collectionCensoredName}
               </Typography>
-              <Typography variant='caption' display='block' gutterBottom>
+              <Typography variant="caption" display="block" gutterBottom>
                 {songData.primaryGenreName}
               </Typography>
-              <Typography variant='caption' display='block' gutterBottom>
+              <Typography variant="caption" display="block" gutterBottom>
                 {songData.releaseDate.substring(0, 4)}, {songData.country}
               </Typography>
               <a
-                rel='noopener noreferrer'
+                rel="noopener noreferrer"
                 href={songData.trackViewUrl}
-                target='_blank'
+                target="_blank"
                 className={classes.link}
               >
                 <Button
-                  variant='contained'
-                  color='secondary'
+                  variant="contained"
+                  color="secondary"
                   className={classes.button}
                 >
-                  BUY THIS TRACK FOR {songData.collectionPrice}{" "}
+                  BUY THIS TRACK FOR {songData.collectionPrice}
                   {songData.currency}
                 </Button>
               </a>
               <div className={classes.goBackWrapper} onClick={history.goBack}>
                 <ArrowBackIosIcon className={classes.goBack} />
-                <Typography variant='caption' display='block' gutterBottom>
-                  GO BACK{" "}
+                <Typography variant="caption" display="block" gutterBottom>
+                  GO BACK
                 </Typography>
               </div>
             </div>
@@ -236,10 +241,10 @@ export default function SongDetails(props) {
             )}
 
             <div className={classes.videoTitle}>
-              <Typography component='h5' variant='h5'>
+              <Typography component="h5" variant="h5">
                 {songData.trackName}
               </Typography>
-              <Typography variant='subtitle1' color='textSecondary'>
+              <Typography variant="subtitle1" color="textSecondary">
                 {songData.artistName}
               </Typography>
             </div>
